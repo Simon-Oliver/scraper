@@ -1,18 +1,24 @@
 const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 const fs = require('fs');
+const getDates = require('./generateDays');
+
+//getDates('20170101', '20171231');
 const getMonthsDateRangeYear = require('./generateMonth');
 
-const monthsArr = getMonthsDateRangeYear(2017);
+const daysArr = getMonthsDateRangeYear(2019);
 
-const allMonthsInYear = async monthsArr => {
+const allMonthsInYear = async daysArr => {
   let allDataInYear = [];
 
-  for (const e of monthsArr) {
-    console.log('---------->', e.start);
-    const dataMonths = await getPages('ЕУ референдум', { start: e.start, end: e.end });
-    allDataInYear = allDataInYear.concat(dataMonths);
-  }
+  const promises = daysArr.map(async e => {
+    await getPages('ЕУ НАТО референдум', { start: e.start, end: e.end }).then(
+      dataMonths => (allDataInYear = allDataInYear.concat(dataMonths))
+    );
+  });
+  // wait until all promises are resolved
+  await Promise.all(promises);
+  return allDataInYear;
 
   // monthsArr.forEach(async e => {
   //   try {
@@ -22,7 +28,7 @@ const allMonthsInYear = async monthsArr => {
   //     console.error(e.message);
   //   }
   // });
-  return allDataInYear;
+  //   return allDataInYear;
 };
 
 const getPages = async (searchTerm, dates) => {
@@ -97,7 +103,7 @@ async function asyncForEach(array, callback) {
   }
 }
 
-allMonthsInYear(monthsArr).then(data => {
+allMonthsInYear(daysArr).then(data => {
   console.log('DONE', data.length);
   var jsonContent = JSON.stringify(data);
 
