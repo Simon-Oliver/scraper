@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 const fs = require('fs');
-const getMonthsDateRangeYear = require('./generateMonth');
+const getMonthsDateRangeYear = require('./getmonthsDateRange');
 
 const monthsArr = getMonthsDateRangeYear(2017);
 
@@ -10,7 +10,7 @@ const allMonthsInYear = async monthsArr => {
 
   for (const e of monthsArr) {
     console.log('---------->', e.start);
-    const dataMonths = await getPages('ЕУ референдум', { start: e.start, end: e.end });
+    const dataMonths = await getPages('ЕУ НАТО референдум', { start: e.start, end: e.end });
     allDataInYear = allDataInYear.concat(dataMonths);
   }
 

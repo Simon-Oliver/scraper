@@ -12,7 +12,7 @@ const allMonthsInYear = async daysArr => {
   let allDataInYear = [];
 
   const promises = daysArr.map(async e => {
-    await getPages('сдсм криминали', { start: e.start, end: e.end }).then(
+    await getPages('еу референдум', { start: e.start, end: e.end }).then(
       dataMonths => (allDataInYear = allDataInYear.concat(dataMonths))
     );
   });
