@@ -4,7 +4,7 @@ const fs = require('fs');
 const getDates = require('./generateDays');
 
 //getDates('20170101', '20171231');
-const getMonthsDateRangeYear = require('./generateMonth');
+const getMonthsDateRangeYear = require('./getmonthsDateRange');
 
 const daysArr = getMonthsDateRangeYear(2019);
 
@@ -12,7 +12,7 @@ const allMonthsInYear = async daysArr => {
   let allDataInYear = [];
 
   const promises = daysArr.map(async e => {
-    await getPages('ЕУ НАТО референдум', { start: e.start, end: e.end }).then(
+    await getPages('сдсм криминали', { start: e.start, end: e.end }).then(
       dataMonths => (allDataInYear = allDataInYear.concat(dataMonths))
     );
   });
